@@ -1,8 +1,9 @@
 // https://docs.cypress.io/api/introduction/api.html
 
-describe('My First Test', () => {
-  it('Visits the app root url', () => {
+describe('Donations', () => {
+  it('displays donations', () => {
     cy.visit('/');
-    cy.contains('h1', 'Welcome to Your Vue.js App');
+    // All sorts of different ways to test Google interaction here,
+    // let's defer this just a bit.
   });
 });
