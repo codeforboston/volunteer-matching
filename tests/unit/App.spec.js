@@ -14,6 +14,7 @@ describe('App.vue', () => {
     return mount(App, {
       localVue,
       store,
+      stubs: ['request-list'],
     });
   }
 
@@ -38,6 +39,7 @@ describe('App.vue', () => {
     it('prompts for the user to sign in', () => {
       const wrapper = render();
       expect(wrapper.text()).to.contain('Please log in first');
+      expect(wrapper.find({ name: 'request-list' }).exists()).to.be.false();
     });
     describe('when the user signs in', () => {
       it('shows that they are signed in', async () => {
@@ -58,10 +60,10 @@ describe('App.vue', () => {
       await wrapper.vm.$nextTick();
       expect(wrapper.find('button').text()).to.contain('sign out');
     });
-    it('shows cool stuff', async () => {
+    it('shows a list of requests', async () => {
       const wrapper = render();
       await wrapper.vm.$nextTick();
-      expect(wrapper.text()).to.contain('Cool stuff!');
+      expect(wrapper.find({ name: 'request-list' }).exists()).to.be.true();
     });
   });
 });

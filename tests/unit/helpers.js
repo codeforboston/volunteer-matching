@@ -8,7 +8,7 @@ chai.use(sinonChai);
 
 export const { expect } = chai;
 
-export function fakeGoogleApi() {
+function googleAuth() {
   let signInListener;
   const isSignedIn = sinon.stub().returns(false);
   const publishIsSignedIn = () => {
@@ -22,9 +22,8 @@ export function fakeGoogleApi() {
     isSignedIn.returns(false);
     publishIsSignedIn();
   });
+
   return {
-    load: sinon.fake.yields(),
-    client: { init: sinon.fake.resolves() },
     auth2: {
       getAuthInstance: sinon.stub().returns({
         signIn,
@@ -37,6 +36,44 @@ export function fakeGoogleApi() {
     },
     fake: {
       updateIsSignedIn(signedIn) { isSignedIn.returns(signedIn); },
+    },
+  };
+}
+
+function googleSpreadsheets() {
+  const sheetValues = {};
+  return {
+    sheets: {
+      spreadsheets: {
+        values: {
+          get: sinon.fake(({ range }) => ({ result: { values: sheetValues[range] } })),
+        },
+      },
+    },
+    fake: {
+      spreadsheets: {
+        addValue(range, value) {
+          sheetValues[range] = value;
+        },
+      },
+    },
+  };
+}
+
+export function fakeGoogleApi() {
+  const auth = googleAuth();
+  const spreadsheets = googleSpreadsheets();
+
+  return {
+    load: sinon.fake.yields(),
+    client: {
+      init: sinon.fake.resolves(),
+      sheets: spreadsheets.sheets,
+    },
+    auth2: auth.auth2,
+    fake: {
+      ...auth.fake,
+      ...spreadsheets.fake,
     },
   };
 }

@@ -23,4 +23,41 @@ function signOut() {
 }
 
 
-export default { initializeGoogleClient, signIn, signOut };
+const REQUEST_COLS = [
+  'id',
+  'dateRequested',
+  'status',
+  'requestUrgency',
+  'requesterName',
+  'requesterId',
+  'requestCategory',
+  'requestSubCategory',
+  'requestDetails',
+  'requestLocation',
+  'fulfilledBy',
+  'dateFulfilled',
+  'recurrenceFrequency',
+  'assigned',
+  'notes',
+];
+
+export async function fetchRequests({ commit }) {
+  const { result: { values } } = await gapi.client.sheets.spreadsheets.values.get({
+    spreadsheetId: process.env.VUE_APP_SPREADSHEET_ID,
+    range: 'Requests',
+  });
+  const rowsWithoutHeader = values.slice(1);
+  const requests = rowsWithoutHeader.map((row) => {
+    const request = {};
+    for (let i = 0; i < row.length; i += 1) {
+      request[REQUEST_COLS[i]] = row[i];
+    }
+    return request;
+  });
+  commit('loadRequests', requests);
+}
+
+
+export default {
+  initializeGoogleClient, signIn, signOut, fetchRequests,
+};

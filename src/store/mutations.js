@@ -5,4 +5,7 @@ export default {
   signOut(state) {
     state.isSignedIn = false;
   },
+  loadRequests(state, requests) {
+    state.requests = requests;
+  },
 };
