@@ -5,6 +5,7 @@ export default {
   state: {
     isSignedIn: false,
     requests: [],
+    donations: [],
   },
   actions,
   mutations,

@@ -14,7 +14,7 @@ describe('App.vue', () => {
     return mount(App, {
       localVue,
       store,
-      stubs: ['request-list'],
+      stubs: ['donation-list'],
     });
   }
 
@@ -60,10 +60,10 @@ describe('App.vue', () => {
       await wrapper.vm.$nextTick();
       expect(wrapper.find('button').text()).to.contain('sign out');
     });
-    it('shows a list of requests', async () => {
+    it('shows a list of donations', async () => {
       const wrapper = render();
       await wrapper.vm.$nextTick();
-      expect(wrapper.find({ name: 'request-list' }).exists()).to.be.true();
+      expect(wrapper.find({ name: 'donation-list' }).exists()).to.be.true();
     });
   });
 });

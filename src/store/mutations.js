@@ -8,4 +8,7 @@ export default {
   loadRequests(state, requests) {
     state.requests = requests;
   },
+  loadDonations(state, donations) {
+    state.donations = donations;
+  },
 };

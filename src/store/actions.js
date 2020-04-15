@@ -22,42 +22,65 @@ function signOut() {
   gapi.auth2.getAuthInstance().signOut();
 }
 
-
-const REQUEST_COLS = [
-  'id',
-  'dateRequested',
-  'status',
-  'requestUrgency',
-  'requesterName',
-  'requesterId',
-  'requestCategory',
-  'requestSubCategory',
-  'requestDetails',
-  'requestLocation',
-  'fulfilledBy',
-  'dateFulfilled',
-  'recurrenceFrequency',
-  'assigned',
-  'notes',
-];
-
-export async function fetchRequests({ commit }) {
+async function fetch(commit, range, columns) {
   const { result: { values } } = await gapi.client.sheets.spreadsheets.values.get({
     spreadsheetId: process.env.VUE_APP_SPREADSHEET_ID,
-    range: 'Requests',
+    range,
   });
   const rowsWithoutHeader = values.slice(1);
-  const requests = rowsWithoutHeader.map((row) => {
-    const request = {};
+  const items = rowsWithoutHeader.map((row) => {
+    const item = {};
     for (let i = 0; i < row.length; i += 1) {
-      request[REQUEST_COLS[i]] = row[i];
+      item[columns[i]] = row[i];
     }
-    return request;
+    return item;
   });
-  commit('loadRequests', requests);
+  commit(`load${range}`, items);
+}
+
+export async function fetchRequests({ commit }) {
+  const REQUEST_COLS = [
+    'id',
+    'dateRequested',
+    'status',
+    'requestUrgency',
+    'requesterName',
+    'requesterId',
+    'requestCategory',
+    'requestSubCategory',
+    'requestDetails',
+    'requestLocation',
+    'fulfilledBy',
+    'dateFulfilled',
+    'recurrenceFrequency',
+    'assigned',
+    'notes',
+  ];
+  fetch(commit, 'Requests', REQUEST_COLS);
+}
+
+export async function fetchDonations({ commit }) {
+  const DONATION_COLS = [
+    'id',
+    'dateReceived',
+    'status',
+    'urgency',
+    'donorName',
+    'donorId',
+    'category',
+    'subCategory',
+    'details',
+    'location',
+    'recipient',
+    'dateDeployed',
+    'recurranceFrequency',
+    'assigned',
+    'notes',
+  ];
+  fetch(commit, 'Donations', DONATION_COLS);
 }
 
 
 export default {
-  initializeGoogleClient, signIn, signOut, fetchRequests,
+  initializeGoogleClient, signIn, signOut, fetchRequests, fetchDonations,
 };
