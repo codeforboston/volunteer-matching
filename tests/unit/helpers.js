@@ -47,6 +47,7 @@ function googleSpreadsheets() {
       spreadsheets: {
         values: {
           get: sinon.fake(({ range }) => ({ result: { values: sheetValues[range] } })),
+          update: sinon.spy(),
         },
       },
     },

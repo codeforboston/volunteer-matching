@@ -37,4 +37,19 @@ describe('DonationList.vue', () => {
     await wrapper.vm.$nextTick();
     expect(wrapper.text()).to.contain('Baldor Boston');
   });
+
+  describe('making a donation', () => {
+    it('updates the spreadsheet', () => {
+      const wrapper = render();
+      wrapper.find('button').trigger('click');
+      expect(gapi.client.sheets.spreadsheets.values.update).to.have.been.calledWith({
+        spreadsheetId: 'FAKE_SPREADSHEET_ID',
+        range: 'Requests!K2',
+        valueInputOption: 'USER_ENTERED',
+        resource: {
+          values: [['<dynamically added>']],
+        },
+      });
+    });
+  });
 });

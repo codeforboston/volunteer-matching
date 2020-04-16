@@ -3,6 +3,7 @@
     <ul>
       <li v-for="donation in donations" :key="donation.id">
         {{donation.donorName}}
+        <button @click="matchDonationToRequest">Match Donation to Request</button>
       </li>
     </ul>
   </div>
@@ -18,7 +19,7 @@ export default {
   },
   computed: mapState(['donations']),
   methods: {
-    ...mapActions(['fetchDonations']),
+    ...mapActions(['fetchDonations', 'matchDonationToRequest']),
   },
 };
 </script>

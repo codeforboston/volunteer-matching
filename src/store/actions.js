@@ -80,7 +80,20 @@ export async function fetchDonations({ commit }) {
   fetch(commit, 'Donations', DONATION_COLS);
 }
 
+export function matchDonationToRequest() {
+  gapi.client.sheets.spreadsheets.values.update({
+    spreadsheetId: process.env.VUE_APP_SPREADSHEET_ID,
+    range: 'Requests!K2',
+    resource: { values: [['<dynamically added>']] },
+    valueInputOption: 'USER_ENTERED',
+  });
+}
 
 export default {
-  initializeGoogleClient, signIn, signOut, fetchRequests, fetchDonations,
+  initializeGoogleClient,
+  signIn,
+  signOut,
+  fetchRequests,
+  fetchDonations,
+  matchDonationToRequest,
 };
