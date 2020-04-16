@@ -6,7 +6,7 @@ function initializeGoogleClient({ commit }) {
       apiKey: process.env.VUE_APP_API_KEY,
       clientId: process.env.VUE_APP_CLIENT_ID,
       discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
-      scope: 'https://www.googleapis.com/auth/drive.file',
+      scope: 'https://www.googleapis.com/auth/spreadsheets',
     }).then(() => {
       gapi.auth2.getAuthInstance().isSignedIn.listen(updateSignInStatus);
       updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());

@@ -31,7 +31,7 @@ describe('App.vue', () => {
       apiKey: 'FAKE_API_KEY',
       clientId: 'FAKE_CLIENT_ID',
       discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
-      scope: 'https://www.googleapis.com/auth/drive.file',
+      scope: 'https://www.googleapis.com/auth/spreadsheets',
     });
   });
 
