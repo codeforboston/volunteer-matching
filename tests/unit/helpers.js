@@ -41,7 +41,7 @@ function googleAuth() {
 }
 
 function googleSpreadsheets() {
-  const sheetValues = {};
+  const sheetValues = { Donations: [], Requests: [] };
   return {
     sheets: {
       spreadsheets: {

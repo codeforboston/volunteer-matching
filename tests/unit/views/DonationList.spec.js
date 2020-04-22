@@ -19,22 +19,30 @@ describe('DonationList.vue', () => {
 
   beforeEach(() => {
     global.gapi = fakeGoogleApi();
-    gapi.fake.spreadsheets.addValue('Donations', [
-      [
-        'Donation ID', 'Date Received', 'Status', 'Donation Urgency', 'Donor Name', 'Donor ID',
-        'Donation Category', 'Donation Sub - category', 'Donation Details', 'Donation Location',
-        'Recipient', 'Date deployed', 'Recurrance frequency', 'Assigned', 'Notes',
+    store = new Vuex.Store(configuration());
+    store.replaceState({
+      donations: [
+        {
+          donorName: 'Baldor Boston',
+          details: 'I can make 5000 hot meals',
+        },
       ],
-      [
-        '1', '3/24/2020', 'Inbound', 'High', 'Baldor Boston', '1', 'Food items', 'Hot meals', 'I can make 5000 hot meal for SHS students',
-      ],
-    ]);
-    store = new Vuex.Store(configuration);
+    });
   });
   afterEach(() => { delete global.gapi; });
-  it('loads a list of donations on mount', async () => {
+
+  it('displays a list of donations', async () => {
     const wrapper = render();
     await wrapper.vm.$nextTick();
     expect(wrapper.text()).to.contain('Baldor Boston');
+  });
+
+  describe('focusing on a donation', () => {
+    it('loads that donation in a new panel', async () => {
+      const wrapper = render();
+      wrapper.find('li').trigger('click');
+      await wrapper.vm.$nextTick();
+      expect(wrapper.find('.donation-details').text()).to.contain('I can make 5000 hot meals');
+    });
   });
 });

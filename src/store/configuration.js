@@ -1,7 +1,7 @@
 import actions from './actions';
 import mutations from './mutations';
 
-export default {
+export default () => ({
   state: {
     isSignedIn: false,
     requests: [],
@@ -9,4 +9,4 @@ export default {
   },
   actions,
   mutations,
-};
+});

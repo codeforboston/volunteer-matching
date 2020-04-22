@@ -20,7 +20,7 @@ describe('App.vue', () => {
 
   beforeEach(() => {
     global.gapi = fakeGoogleApi();
-    store = new Vuex.Store(configuration);
+    store = new Vuex.Store(configuration());
   });
   afterEach(() => { delete global.gapi; });
 

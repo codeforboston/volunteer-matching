@@ -11,4 +11,8 @@ export default {
   loadDonations(state, donations) {
     state.donations = donations;
   },
+  clearSheetsData(state) {
+    state.requests = undefined;
+    state.donations = undefined;
+  },
 };

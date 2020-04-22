@@ -4,4 +4,4 @@ import configuration from './configuration';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store(configuration);
+export default new Vuex.Store(configuration());
